@@ -16,6 +16,16 @@ myLast (_:xs) = myLast xs
 -- λ> myButLast ['a'..'z']
 -- 'y'
 myButLast :: [a] -> a
-myButLast x
-    | length x < 2 = error "not enough elements"
-    | otherwise = x !! (length x - 2)
+myButLast xs
+    | length xs < 2 = error "not enough elements"
+    | otherwise = xs !! (length xs - 2)
+
+---- 3: Find the K'th element of a list. The first element in the list is number 1.
+-- λ> elementAt [1,2,3] 2
+-- 2
+-- λ> elementAt "haskell" 5
+-- 'e'
+elementAt :: [a] -> Int -> a
+elementAt xs k
+    | length xs < k = error "not enough elements"
+    | otherwise = xs !! (k - 1)
