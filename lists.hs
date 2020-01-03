@@ -29,3 +29,11 @@ elementAt :: [a] -> Int -> a
 elementAt xs k
     | length xs < k = error "not enough elements"
     | otherwise = xs !! (k - 1)
+
+---- 4: Find the number of elements of a list.
+-- λ> myLength [123, 456, 789]
+-- 3
+-- λ> myLength "Hello, world!"
+-- 13
+myLength :: [a] -> Int
+myLength = foldr (\_ n -> n + 1) 0
