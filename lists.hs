@@ -37,3 +37,8 @@ elementAt xs k
 -- 13
 myLength :: [a] -> Int
 myLength = foldr (\_ n -> n + 1) 0
+
+---- 5: Reverse a list
+myRev :: [a] -> [a]
+myRev [] = []
+myRev (x:xs) = myRev xs ++ [x]
