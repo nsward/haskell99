@@ -42,3 +42,6 @@ myLength = foldr (\_ n -> n + 1) 0
 myRev :: [a] -> [a]
 myRev [] = []
 myRev (x:xs) = myRev xs ++ [x]
+
+myRev' :: [a] -> [a]
+myRev' = foldr (\a b -> b ++ [a]) []
