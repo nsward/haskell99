@@ -55,3 +55,27 @@ myRev' = foldr (\a b -> b ++ [a]) []
 -- True
 isPalindrome :: Eq a => [a] -> Bool
 isPalindrome xs = xs == (reverse xs)
+
+---- 7: Flatten a nested list structure
+-- data NestedList a = Elem a | List [NestedList a]
+-- λ> flatten (Elem 5)
+-- [5]
+-- λ> flatten (List [Elem 1, List [Elem 2, List [Elem 3, Elem 4], Elem 5]])
+-- [1,2,3,4,5]
+-- λ> flatten (List [])
+-- []
+
+
+---- 8: Eliminate consecutive duplicates of list elements.
+-- λ> compress "aaaabccaadeeee"
+-- "abcade"
+isDup :: Eq a => a -> [a] -> Bool
+isDup _ [] = False
+isDup x xs = (x == head xs)
+
+compress :: Eq a => [a] -> [a]
+compress = foldr (\x xs -> if isDup x xs then xs else [x] ++ xs) []
+
+-- a much cleaner solution:
+-- compress :: Eq a => [a] -> [a]
+-- compress = map head . group
