@@ -1,6 +1,8 @@
----- Problems 1 - 10: Lists ----
+----- Problems 1 - 10: Lists -----
 
----- 1: Find the last element of a list
+import Data.List
+
+----- 1: Find the last element of a list
 -- λ> myLast [1,2,3,4]
 -- 4
 -- λ> myLast ['x','y','z']
@@ -10,7 +12,7 @@ myLast [] = error "empty list"
 myLast [x] = x
 myLast (_:xs) = myLast xs
 
----- 2: Find the last but one element of a list.
+----- 2: Find the last but one element of a list.
 -- λ> myButLast [1,2,3,4]
 -- 3
 -- λ> myButLast ['a'..'z']
@@ -20,7 +22,7 @@ myButLast xs
     | length xs < 2 = error "not enough elements"
     | otherwise = xs !! (length xs - 2)
 
----- 3: Find the K'th element of a list. The first element in the list is number 1.
+----- 3: Find the K'th element of a list. The first element in the list is number 1.
 -- λ> elementAt [1,2,3] 2
 -- 2
 -- λ> elementAt "haskell" 5
@@ -30,7 +32,7 @@ elementAt xs k
     | length xs < k = error "not enough elements"
     | otherwise = xs !! (k - 1)
 
----- 4: Find the number of elements of a list.
+----- 4: Find the number of elements of a list.
 -- λ> myLength [123, 456, 789]
 -- 3
 -- λ> myLength "Hello, world!"
@@ -38,7 +40,7 @@ elementAt xs k
 myLength :: [a] -> Int
 myLength = foldr (\_ n -> n + 1) 0
 
----- 5: Reverse a list
+----- 5: Reverse a list
 myRev :: [a] -> [a]
 myRev [] = []
 myRev (x:xs) = myRev xs ++ [x]
@@ -46,7 +48,7 @@ myRev (x:xs) = myRev xs ++ [x]
 myRev' :: [a] -> [a]
 myRev' = foldr (\a b -> b ++ [a]) []
 
----- 6: Find out whether a list is a palindrome.
+----- 6: Find out whether a list is a palindrome.
 -- λ> isPalindrome [1,2,3]
 -- False
 -- λ> isPalindrome "madamimadam"
@@ -56,7 +58,8 @@ myRev' = foldr (\a b -> b ++ [a]) []
 isPalindrome :: Eq a => [a] -> Bool
 isPalindrome xs = xs == (reverse xs)
 
----- 7: Flatten a nested list structure
+-- TODO
+----- 7: Flatten a nested list structure
 -- data NestedList a = Elem a | List [NestedList a]
 -- λ> flatten (Elem 5)
 -- [5]
@@ -65,8 +68,7 @@ isPalindrome xs = xs == (reverse xs)
 -- λ> flatten (List [])
 -- []
 
-
----- 8: Eliminate consecutive duplicates of list elements.
+----- 8: Eliminate consecutive duplicates of list elements.
 -- λ> compress "aaaabccaadeeee"
 -- "abcade"
 isDup :: Eq a => a -> [a] -> Bool
@@ -79,3 +81,21 @@ compress = foldr (\x xs -> if isDup x xs then xs else [x] ++ xs) []
 -- a much cleaner solution:
 -- compress :: Eq a => [a] -> [a]
 -- compress = map head . group
+
+----- 9: Pack consecutive duplicates of list elements into sublists.
+-- If a list contains repeated elements they should be placed in separate sublists.
+-- * (pack '(a a a a b c c a a d e e e e))
+-- ((A A A A) (B) (C C) (A A) (D) (E E E E))
+--
+-- λ> pack ['a', 'a', 'a', 'a', 'b', 'c', 'c', 'a', 'a', 'd', 'e', 'e', 'e', 'e']
+-- ["aaaa","b","cc","aa","d","eeee"]
+-- first version:
+pack :: Eq a => [a] -> [[a]]
+pack [] = []
+pack (x:xs) = (x:takeWhile (== x) xs):pack (dropWhile (==x) xs)
+
+-- better version:
+pack' :: Eq a => [a] -> [[a]]
+pack' [] = []
+pack' (x:xs) = let (match, rem) = span (== x) xs
+    in (x:match):pack rem
