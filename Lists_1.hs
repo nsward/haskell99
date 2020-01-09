@@ -14,8 +14,8 @@ data EncodedListItem a = Single a | Multiple Int a deriving (Show)
 encodeMod :: Eq a => [a] -> [EncodedListItem a]
 encodeMod = map tupleToEli . encode
     where
-        tupleToEli (1, li) = Single li
-        tupleToEli (n, li) = Multiple n li
+     tupleToEli (1, li) = Single li
+     tupleToEli (n, li) = Multiple n li
 
 
 ----- 12: Decode a run-length encoded list.
@@ -24,3 +24,8 @@ encodeMod = map tupleToEli . encode
 --        [Multiple 4 'a',Single 'b',Multiple 2 'c',
 --         Multiple 2 'a',Single 'd',Multiple 4 'e']
 -- "aaaabccaadeeee"
+decodeMod :: Eq a => [EncodedListItem a] -> [a]
+decodeMod = concatMap decoder
+    where
+     decoder (Single a) = [a]
+     decoder (Multiple n a) = replicate n a
