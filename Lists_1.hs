@@ -42,3 +42,13 @@ encodeDirect (x:xs) = let matchLen = length (takeWhile (== x) xs)
     where
      toEli 1 a = Single a
      toEli n a = Multiple n a
+
+----- 14: Duplicate the elements of a list
+-- λ> dupli [1, 2, 3]
+-- [1,1,2,2,3,3]
+dup :: [a] -> [a]
+dup [] = []
+dup (x:xs) = x:x:dup xs
+
+dup' :: [a] -> [a]
+dup' = foldr (\x xs -> x:x:xs) []
