@@ -52,3 +52,16 @@ dup (x:xs) = x:x:dup xs
 
 dup' :: [a] -> [a]
 dup' = foldr (\x xs -> x:x:xs) []
+
+----- 15: Replicate the elements of a list a given number of times
+-- λ> repli "abc" 3
+-- "aaabbbccc"
+rep :: Int -> [a] -> [a]
+rep _ [] = []
+rep n (x:xs) = replicate n x ++ rep n xs
+
+rep' :: Int -> [a] -> [a]
+rep' n = foldr (\x xs -> replicate n x ++ xs) []
+
+rep'' :: Int -> [a] -> [a]
+rep'' n xs = concatMap (replicate n) xs
