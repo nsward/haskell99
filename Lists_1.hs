@@ -65,3 +65,9 @@ rep' n = foldr (\x xs -> replicate n x ++ xs) []
 
 rep'' :: Int -> [a] -> [a]
 rep'' n xs = concatMap (replicate n) xs
+
+----- 16: Drop every nth element from a list
+-- λ> dropEvery "abcdefghik" 3
+-- "abdeghk"
+dropEvery :: [a] -> Int -> [a]
+dropEvery xs n = [x | (i, x) <- zip [1..] xs, mod i n /= 0]
