@@ -71,3 +71,26 @@ rep'' n xs = concatMap (replicate n) xs
 -- "abdeghk"
 dropEvery :: [a] -> Int -> [a]
 dropEvery xs n = [x | (i, x) <- zip [1..] xs, mod i n /= 0]
+
+----- 17: Split a list into two parts given the length of the first part
+-- Do not use any predefined predicates.
+-- λ> split "abcdefghik" 3
+-- ("abc", "defghik")
+-- first one that came to mind
+split :: [a] -> Int -> ([a], [a])
+split xs n = ([x | (_, x) <- zip [1..n] xs], [x | (i, x) <- zip [1..] xs, i > n])
+
+-- but, I really want to use some cleaner predicates, so defining my own
+-- doesn't seem like cheating too badly
+take' :: Int -> [a] -> [a]
+take' 0 _ = []
+take' _ [] = []
+take' n (x:xs) = x : (take' (n - 1) xs)
+
+drop' :: Int -> [a] -> [a]
+drop' 0 xs = xs
+drop' _ [] = []
+drop' n (x:xs) = drop' (n - 1) xs
+
+split' :: [a] -> Int -> ([a], [a])
+split' xs n = (take' n xs, drop' n xs)
