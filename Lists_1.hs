@@ -107,3 +107,13 @@ slice (x:xs) i k
 
 slice' :: [a] -> Int -> Int -> [a]
 slice' xs i k = take (k - i + 1) (drop (i - 1) xs)
+
+----- 19: Rotate a list N places to the left
+-- λ> rotate ['a','b','c','d','e','f','g','h'] 3
+-- "defghabc"
+-- λ> rotate ['a','b','c','d','e','f','g','h'] (-2)
+-- "ghabcdef"
+rotate :: [a] -> Int -> [a]
+rotate xs n
+    | n < 0 = rotate xs (n + length xs)
+    | otherwise = let (frnt, back) = splitAt n xs in back ++ frnt
