@@ -121,7 +121,6 @@ rotate xs n
 ----- 20: Remove the kth element from a list
 -- λ> removeAt 2 "abcd"
 -- ('b',"acd")
-removeAt :: Int -> [a] -> [a]
-removeAt _ [] = []
-removeAt 1 (x:xs) = xs
-removeAt n (x:xs) = x : removeAt (n - 1) xs
+removeAt :: Int -> [a] -> ([a], [a])
+removeAt n xs = let (beg, end) = splitAt n xs
+    in ([last beg], init beg ++ end)
