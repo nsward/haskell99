@@ -117,3 +117,11 @@ rotate :: [a] -> Int -> [a]
 rotate xs n
     | n < 0 = rotate xs (n + length xs)
     | otherwise = let (frnt, back) = splitAt n xs in back ++ frnt
+
+----- 20: Remove the kth element from a list
+-- λ> removeAt 2 "abcd"
+-- ('b',"acd")
+removeAt :: Int -> [a] -> [a]
+removeAt _ [] = []
+removeAt 1 (x:xs) = xs
+removeAt n (x:xs) = x : removeAt (n - 1) xs
