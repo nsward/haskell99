@@ -55,6 +55,9 @@ primes2 (p:xs) = p : primes2 left
 ----- 32: Determine the greatest common divisor of two positive integer numbers using Euclid's algorithm.
 -- λ> [myGCD 36 63, myGCD (-3) (-6), myGCD (-3) 6]
 -- [9,3,3]
+eucgcd :: Integral a => a -> a -> a
+-- naive implementation
+eucgcd n m = last [x | x <- [1..(max n m)], n `mod` x == 0, m `mod` x == 0]
 
 ----- 33: Determine whether two positive integer numbers are coprime. Two numbers are coprime if their greatest common divisor equals 1.
 -- λ> coprime 35 64
