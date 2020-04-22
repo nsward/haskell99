@@ -13,3 +13,17 @@ cbalTree :: Int -> Tree Char
 cbalTree 0 = Empty
 cbalTree n = Branch 'x' (cbalTree $ ceiling half) (cbalTree $ floor half)
   where half = fromIntegral (n-1) / 2
+
+----- 56: Symmetric Binary Trees
+-- Write a predicate symmetric/1 to check whether a given binary tree is symmetric. 
+-- λ> symmetric (Branch 'x' (Branch 'x' Empty Empty) Empty)
+-- False
+-- λ> symmetric (Branch 'x' (Branch 'x' Empty Empty) (Branch 'x' Empty Empty))
+-- True
+symmetric :: Tree a -> Bool
+symmetric Empty = True
+symmetric (Branch _ l r) = mirror l r
+  where
+    mirror Empty Empty = True
+    mirror (Branch _ l r) (Branch _ l' r') = mirror l l' && mirror r r'
+    mirror _ _ = False
