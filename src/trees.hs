@@ -1,3 +1,5 @@
+import Data.List (sort)
+
 ----- Problems 54A - 60: Binary Trees -----
 
 data Tree a = Empty | Branch a (Tree a) (Tree a)
@@ -15,7 +17,7 @@ cbalTree n = Branch 'x' (cbalTree $ ceiling half) (cbalTree $ floor half)
   where half = fromIntegral (n-1) / 2
 
 ----- 56: Symmetric Binary Trees
--- Write a predicate symmetric/1 to check whether a given binary tree is symmetric. 
+-- Write a predicate symmetric/1 to check whether a given binary tree is symmetric.
 -- λ> symmetric (Branch 'x' (Branch 'x' Empty Empty) Empty)
 -- False
 -- λ> symmetric (Branch 'x' (Branch 'x' Empty Empty) (Branch 'x' Empty Empty))
@@ -27,3 +29,15 @@ symmetric (Branch _ l r) = mirror l r
     mirror Empty Empty = True
     mirror (Branch _ l r) (Branch _ l' r') = mirror l l' && mirror r r'
     mirror _ _ = False
+
+----- 57: Binary search trees
+-- write a predicate to construct a binary search tree from a list of integer numbers.
+-- λ> construct [3, 2, 5, 7, 1]
+-- Branch 3 (Branch 2 (Branch 1 Empty Empty) Empty) (Branch 5 Empty (Branch 7 Empty Empty))
+construct :: Ord a => [a] -> Tree a
+construct = build . halve . sort
+  where
+    halve xs = splitAt (length xs `div` 2) xs
+    build (_,[]) = Empty
+    build (l,r)  = Branch (head r) (build $ halve l) (build . halve $ tail r)
+
